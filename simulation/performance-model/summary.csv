@@ -1,0 +1,9 @@
+Metric,Value,Note
+Most valves open at once,2.0,limit 2
+Pump run time in 8 h (min),125.3,
+Peak running current (A),1.59,limit 2.5
+Soft-start peak (A),1.62,hard start 2.98
+Dry-run trip time (ms),250.0,after tank empty
+Overcurrent trip time (ms),250.0,after jam
+Low-supply trip time (ms),250.0,checked every 10 s sensor read
+Faults in normal 8 h run,0.0,

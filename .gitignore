@@ -1,0 +1,4 @@
+.pio/
+__pycache__/
+*.lck
+firmware/include/secrets.h

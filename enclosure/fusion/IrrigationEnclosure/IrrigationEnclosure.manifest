@@ -1,0 +1,10 @@
+{
+	"autodeskProduct":	"Fusion",
+	"type":	"script",
+	"author":	"Claude",
+	"description":	{
+		"":	"Smart IoT Irrigation Controller v2 water-drop enclosure"
+	},
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}

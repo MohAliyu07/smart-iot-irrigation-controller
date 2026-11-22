@@ -1,0 +1,642 @@
+{
+  "version": 1,
+  "author": "Mohammed Olamilekan Aliyu",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "soil4",
+      "top": -109,
+      "left": -69,
+      "attrs": {
+        "value": "400"
+      }
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -155,
+      "left": -155,
+      "attrs": {
+        "temperature": "27",
+        "humidity": "60"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": -63,
+      "left": -313,
+      "attrs": {
+        "color": "blue",
+        "label": "MODE"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz",
+      "top": -124,
+      "left": -407,
+      "attrs": {
+        "volume": "0.1"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "wifi",
+      "top": -82,
+      "left": -495,
+      "attrs": {
+        "color": "yellow"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "soil1",
+      "top": -109,
+      "left": 101,
+      "attrs": {
+        "value": "400"
+      }
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "soil2",
+      "top": -109,
+      "left": 211,
+      "attrs": {
+        "value": "400"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "v4",
+      "top": 282,
+      "left": -45,
+      "attrs": {
+        "color": "green"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-led",
+      "id": "v3",
+      "top": 282,
+      "left": -110,
+      "attrs": {
+        "color": "green"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-led",
+      "id": "v2",
+      "top": 282,
+      "left": -175,
+      "attrs": {
+        "color": "green"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-led",
+      "id": "v1",
+      "top": 282,
+      "left": -240,
+      "attrs": {
+        "color": "green"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-led",
+      "id": "pump",
+      "top": 282,
+      "left": -305,
+      "attrs": {
+        "color": "blue"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "ipump",
+      "top": 293.4,
+      "left": -426.6,
+      "attrs": {
+        "value": "300"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "soil3",
+      "top": 293.4,
+      "left": -536.6,
+      "attrs": {
+        "value": "400"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "vin",
+      "top": 293.4,
+      "left": -646.6,
+      "attrs": {
+        "value": "591"
+      },
+      "rotate": 180
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_esp",
+      "top": 272,
+      "left": 16.8,
+      "attrs": {
+        "text": "ESP32-S3\n(U1)"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_soil4",
+      "top": -157,
+      "left": -54.6,
+      "attrs": {
+        "text": "SOIL 4\nIO4"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_dht",
+      "top": -203,
+      "left": -138.2,
+      "attrs": {
+        "text": "DHT\nIO5"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_btn",
+      "top": -111,
+      "left": -295.1,
+      "attrs": {
+        "text": "MODE\nIO6"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_bz",
+      "top": -172,
+      "left": -392.9,
+      "attrs": {
+        "text": "BUZZER\nIO7"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_wifi",
+      "top": -130,
+      "left": -506.2,
+      "attrs": {
+        "text": "WIFI LED\nIO15"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_soil1",
+      "top": -157,
+      "left": 115.4,
+      "attrs": {
+        "text": "SOIL 1\nIO1"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_soil2",
+      "top": -157,
+      "left": 225.4,
+      "attrs": {
+        "text": "SOIL 2\nIO2"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_v4",
+      "top": 348,
+      "left": -52.3,
+      "attrs": {
+        "text": "VALVE 4\nIO14"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_v3",
+      "top": 348,
+      "left": -117.3,
+      "attrs": {
+        "text": "VALVE 3\nIO13"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_v2",
+      "top": 348,
+      "left": -182.3,
+      "attrs": {
+        "text": "VALVE 2\nIO12"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_v1",
+      "top": 348,
+      "left": -247.3,
+      "attrs": {
+        "text": "VALVE 1\nIO11"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_pump",
+      "top": 348,
+      "left": -300.6,
+      "attrs": {
+        "text": "PUMP\nIO10"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_ipump",
+      "top": 375.0,
+      "left": -435.6,
+      "attrs": {
+        "text": "PUMP CURRENT\nIO9"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_soil3",
+      "top": 375.0,
+      "left": -522.2,
+      "attrs": {
+        "text": "SOIL 3\nIO3"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_vin",
+      "top": 375.0,
+      "left": -640.0,
+      "attrs": {
+        "text": "SUPPLY V\nIO8"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "soil4:SIG",
+      "esp:4",
+      "green",
+      [
+        "v98"
+      ]
+    ],
+    [
+      "dht:SDA",
+      "esp:5",
+      "blue",
+      [
+        "v107"
+      ]
+    ],
+    [
+      "bz:2",
+      "esp:7",
+      "purple",
+      [
+        "v127"
+      ]
+    ],
+    [
+      "wifi:A",
+      "esp:15",
+      "gold",
+      [
+        "v136"
+      ]
+    ],
+    [
+      "btn:1.r",
+      "esp:6",
+      "blue",
+      [
+        "h6",
+        "v127"
+      ]
+    ],
+    [
+      "soil1:SIG",
+      "esp:1",
+      "green",
+      [
+        "v98"
+      ]
+    ],
+    [
+      "soil2:SIG",
+      "esp:2",
+      "green",
+      [
+        "v107"
+      ]
+    ],
+    [
+      "v4:A",
+      "esp:14",
+      "green",
+      [
+        "v-89"
+      ]
+    ],
+    [
+      "v3:A",
+      "esp:13",
+      "green",
+      [
+        "v-98"
+      ]
+    ],
+    [
+      "v2:A",
+      "esp:12",
+      "green",
+      [
+        "v-108"
+      ]
+    ],
+    [
+      "v1:A",
+      "esp:11",
+      "green",
+      [
+        "v-117"
+      ]
+    ],
+    [
+      "pump:A",
+      "esp:10",
+      "blue",
+      [
+        "v-127"
+      ]
+    ],
+    [
+      "ipump:SIG",
+      "esp:9",
+      "orange",
+      [
+        "v-137"
+      ]
+    ],
+    [
+      "soil3:SIG",
+      "esp:3",
+      "green",
+      [
+        "v-156"
+      ]
+    ],
+    [
+      "vin:SIG",
+      "esp:8",
+      "orange",
+      [
+        "v-165"
+      ]
+    ],
+    [
+      "wifi:C",
+      "bz:1",
+      "black",
+      [
+        "v20",
+        "h100"
+      ]
+    ],
+    [
+      "bz:1",
+      "btn:2.l",
+      "black",
+      [
+        "v20",
+        "h62",
+        "v-11"
+      ]
+    ],
+    [
+      "btn:2.l",
+      "dht:GND",
+      "black",
+      [
+        "h-5",
+        "v11",
+        "h207"
+      ]
+    ],
+    [
+      "dht:GND",
+      "soil4:GND",
+      "black",
+      [
+        "v20",
+        "h71"
+      ]
+    ],
+    [
+      "soil4:GND",
+      "soil1:GND",
+      "black",
+      [
+        "v20",
+        "h170"
+      ]
+    ],
+    [
+      "soil1:GND",
+      "soil2:GND",
+      "black",
+      [
+        "v20",
+        "h110"
+      ]
+    ],
+    [
+      "soil1:GND",
+      "esp:GND.2",
+      "black",
+      [
+        "v69"
+      ]
+    ],
+    [
+      "dht:VCC",
+      "soil4:VCC",
+      "red",
+      [
+        "v28",
+        "h120"
+      ]
+    ],
+    [
+      "soil4:VCC",
+      "soil1:VCC",
+      "red",
+      [
+        "v28",
+        "h170"
+      ]
+    ],
+    [
+      "soil1:VCC",
+      "soil2:VCC",
+      "red",
+      [
+        "v28",
+        "h110"
+      ]
+    ],
+    [
+      "esp:3V3.1",
+      "soil4:VCC",
+      "red",
+      [
+        "h-13",
+        "v-41",
+        "h-12"
+      ]
+    ],
+    [
+      "vin:GND",
+      "soil3:GND",
+      "black",
+      [
+        "v-20",
+        "h110"
+      ]
+    ],
+    [
+      "soil3:GND",
+      "ipump:GND",
+      "black",
+      [
+        "v-20",
+        "h110"
+      ]
+    ],
+    [
+      "ipump:GND",
+      "pump:C",
+      "black",
+      [
+        "v-20",
+        "h100"
+      ]
+    ],
+    [
+      "pump:C",
+      "v1:C",
+      "black",
+      [
+        "v-20",
+        "h65"
+      ]
+    ],
+    [
+      "v1:C",
+      "v2:C",
+      "black",
+      [
+        "v-20",
+        "h65"
+      ]
+    ],
+    [
+      "v2:C",
+      "v3:C",
+      "black",
+      [
+        "v-20",
+        "h65"
+      ]
+    ],
+    [
+      "v3:C",
+      "v4:C",
+      "black",
+      [
+        "v-20",
+        "h65"
+      ]
+    ],
+    [
+      "v4:C",
+      "esp:GND.1",
+      "black",
+      [
+        "v-20",
+        "h15",
+        "v-49"
+      ]
+    ],
+    [
+      "ipump:VCC",
+      "soil3:VCC",
+      "red",
+      [
+        "v-32",
+        "h-110"
+      ]
+    ],
+    [
+      "soil3:VCC",
+      "vin:VCC",
+      "red",
+      [
+        "v-32",
+        "h-110"
+      ]
+    ],
+    [
+      "vin:VCC",
+      "dht:VCC",
+      "red",
+      [
+        "v-32",
+        "h-60",
+        "v-280",
+        "h540"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}
