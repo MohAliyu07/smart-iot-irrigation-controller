@@ -111,7 +111,9 @@ python3 plot.py
 
 ![Stalled start](results/graphs/RevB_Perf_5_Stalled_Start.png)
 
-These numbers come from the model. The Rev B firmware has not been built with PlatformIO or run on a board yet, and Wokwi and Proteus were last run on the Rev A code.
+These numbers come from the model. The Rev B sketch compiles and runs in Wokwi (steady readings, no fault), but the fault tests were not repeated there. The firmware has not been built with PlatformIO or run on a board yet, and Proteus was last run on the Rev A code.
+
+![Wokwi test circuit](images/RevB_Wokwi_Circuit.png)
 
 The method is in [docs/Irrigation_v2_Technical_Report.pdf](docs/Irrigation_v2_Technical_Report.pdf), which was written for Rev A. The Rev B changes are in [docs/CHANGES_RevB.md](docs/CHANGES_RevB.md).
 

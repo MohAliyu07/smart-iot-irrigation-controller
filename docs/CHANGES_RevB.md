@@ -27,5 +27,6 @@ The firmware was rewritten for the Rev B board. Pins, Blynk virtual pins and lim
 
 ## Not checked
 - Not built with PlatformIO for the ESP32, and not run on a board.
-- Wokwi and Proteus were not run again.
+- Wokwi: the sketch compiles and runs (steady readings, no fault), but the fault tests were not repeated there.
+- Proteus was not run again.
 - Items 1 to 5 above are not exercised by the model's test scenarios.
