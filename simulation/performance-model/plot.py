@@ -1,6 +1,6 @@
 import pandas as pd, numpy as np, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size':10,'axes.grid':True,'grid.alpha':.3,'axes.spines.top':False,'axes.spines.right':False})
-C=['#1f77b4','#ff7f0e','#2ca02c','#d62728']; O='/mnt/user-data/outputs/'
+C=['#1f77b4','#ff7f0e','#2ca02c','#d62728']; O='/mnt/user-data/outputs/revb/RevB_'
 a=pd.read_csv('auto8h.csv'); h=a.t/3600
 fig,ax=plt.subplots(3,1,figsize=(11,8.5),sharex=True,gridspec_kw={'height_ratios':[3,1.6,1.4]})
 for z in range(4): ax[0].plot(h,a[f'm{z+1}'],c=C[z],lw=1.6,label=f'Zone {z+1}')
@@ -48,3 +48,32 @@ summ=[['Most valves open at once',int(a.open.max()),'limit 2'],['Pump run time i
 ['Low-supply trip time (ms)',round(tr['lowvin']),'checked every 10 s sensor read'],['Faults in normal 8 h run',int(a.fault.max()),'']]
 m.to_csv('zones.csv',index=False);pd.DataFrame(summ,columns=['Metric','Value','Note']).to_csv('summary.csv',index=False)
 print(m.to_string());print(pd.DataFrame(summ).to_string())
+# ---- Rev B additions ----
+ra=pd.read_csv('ramp_revA.csv');rb=pd.read_csv('ramp_revB.csv').groupby('t',as_index=False).mean()
+fig,ax=plt.subplots(1,2,figsize=(12.5,4.3),sharey=True)
+t0=ra.t.iloc[0]-0.01
+for a_,d,ttl in [(ax[0],ra,'Rev A: no filter, one ADC sample'),(ax[1],rb,'Rev B: RC filter (1 k + 100 nF), 16 samples, divided by duty')]:
+    tt=(d.t-t0)*1000
+    a_.plot(tt,d.I,c='#444',lw=2,label='True motor current')
+    est=d.reading if 'Rev A' in ttl else d.reading/d.duty
+    a_.plot(tt,est,'o',ms=4,c='#d62728' if 'Rev A' in ttl else '#2ca02c',label='What the firmware measures')
+    err=(est-d.I).abs(); a_.set_title(ttl,loc='left',fontweight='bold',fontsize=10)
+    a_.text(0.98,0.05,f'mean error {err.mean():.2f} A\nworst {err.max():.2f} A',transform=a_.transAxes,ha='right',fontsize=9)
+    a_.set_xlabel('Time into soft start (ms)');a_.legend(loc='upper left',fontsize=8)
+ax[0].set_ylabel('Pump current (A)');fig.suptitle('Current measurement during the 20 kHz soft-start ramp',x=0.01,ha='left',fontweight='bold');fig.tight_layout();fig.savefig(O+'Perf_4_Current_Sense_Filter.png',dpi=160)
+errA=(ra.reading-ra.I).abs();errB=(rb.reading/rb.duty-rb.I).abs()
+sa=pd.read_csv('stall_revA_fast.csv');sb=pd.read_csv('stall_revB_fast.csv')
+fig,ax=plt.subplots(figsize=(9,4.5))
+res={}
+for d,c,l in [(sa,'#d62728','Rev A (checks only after the ramp)'),(sb,'#2ca02c','Rev B (checks on every ramp step)')]:
+    on=d[d.duty>0];t1=on.t.min();dd=d[(d.t>=t1-0.02)&(d.t<=t1+0.7)]
+    res[l[:5]]=(d.I.max(),(on.t.max()-t1)*1000)
+    ax.plot((dd.t-t1)*1000,dd.I,c=c,lw=1.8,label=f'{l}: peak {d.I.max():.2f} A, powered {(on.t.max()-t1)*1000:.0f} ms')
+ax.axhline(2.5,c='k',ls='--',lw=1,label='Overcurrent limit 2.5 A');ax.set_xlabel('Time after pump command (ms)');ax.set_ylabel('Pump current (A)')
+ax.set_title('Stalled pump at start-up',loc='left',fontweight='bold');ax.legend(fontsize=8.5);fig.tight_layout();fig.savefig(O+'Perf_5_Stalled_Start.png',dpi=160)
+extra=[['Sense error in soft start, Rev A (A, mean/worst)',f'{errA.mean():.2f} / {errA.max():.2f}','no filter'],
+['Sense error in soft start, Rev B (A, mean/worst)',f'{errB.mean():.2f} / {errB.max():.2f}','RC filter + averaging'],
+['Stalled start, Rev A: peak A / powered ms',f"{res['Rev A'][0]:.2f} / {res['Rev A'][1]:.0f}",''],
+['Stalled start, Rev B: peak A / powered ms',f"{res['Rev B'][0]:.2f} / {res['Rev B'][1]:.0f}",'']]
+pd.concat([pd.read_csv('summary.csv'),pd.DataFrame(extra,columns=['Metric','Value','Note'])]).to_csv('summary.csv',index=False)
+print(pd.DataFrame(extra).to_string())

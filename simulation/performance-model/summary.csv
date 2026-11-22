@@ -7,3 +7,7 @@ Dry-run trip time (ms),250.0,after tank empty
 Overcurrent trip time (ms),250.0,after jam
 Low-supply trip time (ms),250.0,checked every 10 s sensor read
 Faults in normal 8 h run,0.0,
+"Sense error in soft start, Rev A (A, mean/worst)",0.34 / 1.38,no filter
+"Sense error in soft start, Rev B (A, mean/worst)",0.01 / 0.04,RC filter + averaging
+"Stalled start, Rev A: peak A / powered ms",2.94 / 499,
+"Stalled start, Rev B: peak A / powered ms",2.54 / 429,

@@ -23,6 +23,8 @@
 
 // ---- Analog scaling ----
 #define VIN_DIV_RATIO   ((100.0f + 22.0f) / 22.0f)   // 100k / 22k divider
+#define ISENSE_SAMPLES 16
+#define ISENSE_SAMPLE_US 31
 #define ISENSE_V_PER_A  1.0f                         // 20 mOhm x INA181A2 (gain 50)
 
 // ---- Safety limits ----
@@ -57,7 +59,7 @@ float readVin();
 
 // ===== outputs.h =====
 void outputsBegin();
-void pumpStart();          // soft-start ramp
+bool pumpStart();          // soft-start ramp
 void pumpStop();
 bool pumpRunning();
 void valveSet(int zone, bool open);
@@ -99,7 +101,13 @@ static int rawToPct(int raw) {
 }
 
 float readVin()          { return analogReadMilliVolts(PIN_VIN_SENSE) / 1000.0f * VIN_DIV_RATIO; }
-float readPumpCurrent()  { return analogReadMilliVolts(PIN_PUMP_ISENSE) / 1000.0f / ISENSE_V_PER_A; }
+extern bool g_revA;   // model only: true = old board + old code (no RC filter, single sample, no ramp check)
+float readPumpCurrent() {
+  if (g_revA) return analogReadMilliVolts(PIN_PUMP_ISENSE) / 1000.0f / ISENSE_V_PER_A;
+  uint32_t acc = 0;
+  for (int i = 0; i < ISENSE_SAMPLES; i++) { acc += analogReadMilliVolts(PIN_PUMP_ISENSE); delayMicroseconds(ISENSE_SAMPLE_US); }
+  return (acc / (float)ISENSE_SAMPLES) / 1000.0f / ISENSE_V_PER_A;
+}
 
 void sensorsRead(SensorData &d) {
   digitalWrite(PIN_SENS_PWR_N, LOW);            // power sensors
@@ -134,14 +142,19 @@ void outputsBegin() {
   pinMode(PIN_LED_WIFI, OUTPUT); digitalWrite(PIN_LED_WIFI, LOW);
 }
 
-void pumpStart() {
-  if (pumpOn) return;
+void simRampLog(float duty, float reading);
+bool pumpStart() {
+  if (pumpOn) return true;
   const int steps = 50;
-  for (int i = 1; i <= steps; i++) {             // 500 ms linear ramp limits inrush (sim: 3.0 A -> 1.65 A)
+  for (int i = 1; i <= steps; i++) {
     ledcWrite(PIN_PUMP_EN, PUMP_MAX * i / steps);
     delay(SOFTSTART_MS / steps);
+    float duty = (float)i / steps;
+    float rd = readPumpCurrent(); simRampLog(duty, rd);
+    if (!g_revA && duty >= 0.2f && rd / duty > PUMP_MAX_CURRENT_A) { ledcWrite(PIN_PUMP_EN, 0); return false; }
   }
   pumpOn = true;
+  return true;
 }
 void pumpStop()     { ledcWrite(PIN_PUMP_EN, 0); pumpOn = false; }
 bool pumpRunning()  { return pumpOn; }
@@ -185,7 +198,7 @@ static void openZone(int z) {
   if (valvesOpenCount() >= MAX_ZONES_OPEN) return;   // rule: never exceed adapter budget
   valveSet(z, true); openedAt[z] = millis();
   delay(100);                                          // valve opens before pump builds pressure
-  if (!pumpRunning()) { pumpStart(); pumpStartedAt = millis(); }
+  if (!pumpRunning()) { if (!pumpStart()) { trip(FAULT_OVERCURRENT); return; } pumpStartedAt = millis(); }
 }
 static void closeZone(int z) {
   if (!valveOpen(z)) return;

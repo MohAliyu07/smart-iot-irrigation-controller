@@ -161,7 +161,7 @@
       "top": 272,
       "left": 16.8,
       "attrs": {
-        "text": "ESP32-S3\n(U1)"
+        "text": "ESP32-S3\n(U1, Rev B)"
       }
     },
     {
@@ -297,6 +297,15 @@
       "left": -640.0,
       "attrs": {
         "text": "SUPPLY V\nIO8"
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "lbl_title",
+      "left": -646,
+      "top": -250,
+      "attrs": {
+        "text": "Smart IoT Irrigation Controller v2 - board Rev B\nWokwi test circuit: pots stand in for the sensors, LEDs for the pump and valves"
       }
     }
   ],
