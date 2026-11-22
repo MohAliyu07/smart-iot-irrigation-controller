@@ -1,0 +1,34 @@
+(version 1)
+
+(rule "power"
+	(condition "((A.NetName == '+5V' || A.NetName == 'GND' || A.NetName == '+12V' || A.NetName == '+5V_REG' || A.NetName == 'VBUS' || A.NetName == 'OUT_PUMP' || A.NetName == 'OUT_V1' || A.NetName == 'OUT_V2' || A.NetName == 'OUT_V3' || A.NetName == 'OUT_V4' || A.NetName == 'VIN_RAW' || A.NetName == 'VIN_F' || A.NetName == 'PUMP_SRC'))")
+	(constraint track_width (min 0.5994mm) (opt 1.0008mm) (max 2.54mm)))
+
+(rule "ClearanceU1_ThermalVias"
+	(condition "A.memberOfFootprint('U1') && B.memberOfFootprint('U1')")
+	(constraint clearance (min 0.1016mm)))
+
+(rule "SilkToSolderMaskClearance"
+	(condition "A.Type == 'Pad'")
+	(constraint silk_clearance (min 0.1524mm)))
+
+(rule "PowerWidth"
+	(condition "A.hasNetclass('POWER')")
+	(constraint track_width (min 0.508mm) (opt 1.016mm) (max 2.54mm)))
+
+(rule "HoleSize"
+	(constraint hole_size (min 0.0254mm) (max 6.35mm)))
+
+(rule "differentialPair"
+	(condition "A.inDiffPair('*')")
+	(constraint diff_pair_gap (min 0.1524mm) (opt 0.1524mm) (max 0.1524mm))
+	(constraint track_width (min 0.127mm) (opt 0.254mm) (max 2.54mm)))
+
+(rule "copperRegion"
+	(constraint zone_connection thermal_reliefs)
+	(constraint thermal_spoke_width (min 0.254mm))
+	(constraint thermal_relief_gap (min 0.254mm)))
+
+(rule "solderMaskExpansion_1"
+	(condition "A.Type == 'Via'")
+	(constraint solder_mask_expansion (opt -25.4mm)))

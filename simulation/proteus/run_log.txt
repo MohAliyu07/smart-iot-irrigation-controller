@@ -1,0 +1,20 @@
+20:25:13 system python C:\Users\USER\AppData\Local\Programs\Python\Python314\python.exe 3.14.10 (tags/v3.14.10:b703b2c, Oct 25 2026, 17:36:52) [MSC v.1944 64 bit (AMD64)]
+20:25:14 ensure_library rc 0
+20:25:14 stdout {"action": "reused", "python": "C:\\Users\\USER\\Documents\\claude testing\\Irrigation Controller v2\\Proteus\\.venv-proteus\\Scripts\\python.exe", "version": "0.2.0", "module": "C:\\Users\\USER\\Documents\\claude testing\\Irrigation Controller v2\\Proteus\\.venv-proteus\\Lib\\site-packages\\proteus_automatic_api.py", "source": {"archive_info": {"hash": "sha256=46aee63da01b19a62538f967ba65524f0f30134ac1d75f4d5e67f30e5d8717fa", "hashes": {"sha256": "46aee63da01b19a62538f967ba65524f0f30134ac1d75f4d5e67f30e5d8717fa"}}, "url": "https://github.com/kudoumakoto6523-design/Proteus_automatic_package/archive/7439819a7ea4cff47fb9b321d8b0e97ac74fafb2.zip"}}
+20:25:14 stderr tail 
+20:25:14 pillow rc 0 
+[notice] A new release of pip is available: 26.2.2 -> 26.3
+[notice] To update, run: C:\Users\USER\Documents\claude testing\Irrigation Controller v2\Proteus\.venv-proteus\Scripts\python.exe -m pip install --upgrade pip
+
+20:25:14 relaunch in C:\Users\USER\Documents\claude testing\Irrigation Controller v2\Proteus\.venv-proteus\Scripts\python.exe
+20:25:15 library C:\Users\USER\Documents\claude testing\Irrigation Controller v2\Proteus\.venv-proteus\Lib\site-packages\proteus_automatic_api.py 0.2.0
+20:25:15 paths {"exe": ["C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional\\BIN\\PDS.EXE", "C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional\\BIN\\PDS.EXE", "C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional\\PatchWise.bak\\BIN\\PDS.EXE"], "roots": ["C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional", "C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional"], "stm32_sample": [], "rescap": ["C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional\\SAMPLES\\Graph Based Simulation\\Rescap.pdsprj", "C:\\Program Files (x86)\\Labcenter Electronics\\Proteus 8 Professional\\SAMPLES\\Graph Based Simulation\\Rescap.pdsprj"]}
+20:25:19 scanned samples 516 {'STM32F103R6': 0, 'BUTTON': 16, 'RES': 65, 'LED-YELLOW': 1}
+20:25:19 ERROR Traceback (most recent call last):
+  File "C:\Users\USER\Documents\claude testing\Irrigation Controller v2\Proteus\run_proteus_sim.py", line 134, in stage2
+    raise RuntimeError('No installed Proteus sample contains the STM32F103R6 (VSM for Cortex-M3 not installed?)')
+RuntimeError: No installed Proteus sample contains the STM32F103R6 (VSM for Cortex-M3 not installed?)
+
+20:25:19 report C:\Users\USER\Documents\claude testing\Irrigation Controller v2\Proteus\run_20261121_202515\result.json
+20:25:19 stage2 exit 0
+20:25:19 done

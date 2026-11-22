@@ -1,0 +1,5 @@
+Zone,Watering cycles,Valve open (min),Min moisture %,Max moisture %
+Zone 1,1,12.7,34.9,70.0
+Zone 2,2,25.3,34.9,62.0
+Zone 3,3,38.0,34.9,60.3
+Zone 4,4,50.7,34.9,60.3
