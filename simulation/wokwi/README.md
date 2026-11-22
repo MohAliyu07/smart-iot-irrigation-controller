@@ -20,3 +20,5 @@ Same pin connections as the PCB (ESP32-S3-WROOM-1, firmware config.h):
 | 15 | WiFi LED | Yellow LED WIFI |
 
 Serial line: `M <moisture % x4> | T <°C> H <%> | VIN <V> | I <A> | mode <0 auto,1 manual,2 off> | fault <0 none,1 overcurrent,2 dry run,3 supply,4 timeout>`
+
+Note: a soil pot turned fully to either end reads as a faulty sensor (below 100 or above 4000 raw), and that zone will not water. Keep the pots inside the range.

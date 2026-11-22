@@ -20,6 +20,7 @@ double plantMilliVolts(int pin);
 inline unsigned long millis(){ return (unsigned long)(g_t*1000.0+0.5); }
 inline unsigned long micros(){ return (unsigned long)(g_t*1e6); }
 inline void delay(unsigned long ms){ for(unsigned long i=0;i<ms;i++) plantAdvance(0.001); }
+inline void delayMicroseconds(unsigned long){}
 inline void pinMode(int,int){}
 inline void digitalWrite(int p,int v){ pinState[p]=v; }
 inline int digitalRead(int p){ return pinState[p]; }
@@ -30,7 +31,7 @@ inline int analogRead(int p){ return (int)std::min(4095.0, plantMilliVolts(p)/33
 inline void ledcAttach(int,int,int){}
 void ledcWrite(int pin,int v);
 inline long map(long x,long a,long b,long c,long d){ return (x-a)*(d-c)/(b-a)+c; }
-template<class T> T constrain(T x,T a,T b){ return x<a?a:(x>b?b:x); }
+template<class T,class A,class B> T constrain(T x,A a,B b){ return x<(T)a?(T)a:(x>(T)b?(T)b:x); }
 struct SerialT{ void printf(const char*,...){} void println(const char*){} void begin(int){} };
 extern SerialT Serial;
 inline void noInterrupts(){} inline void interrupts(){}

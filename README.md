@@ -2,20 +2,24 @@
 
 A four-zone garden watering controller built around the ESP32-S3. It reads four soil-moisture sensors and a DHT11, decides which zones need water, and runs a 12 V pump through four solenoid valves. You can watch it and take over from your phone through Blynk.
 
-This repo has everything for v2: firmware, the PCB (EasyEDA, KiCad and Altium), simulations, test results, a 3D-printable enclosure and the full technical report.
+This repo has everything for v2: firmware, the PCB, simulations, test results, a 3D-printable enclosure and the technical report.
 
-![PCB 3D view](images/PCB_3D_view.png)
+The current board is **Rev B**, a 100 × 75 mm rectangular board redrawn from the schematic up. The first board (Rev A, the round one) is still here for reference.
+
+![Rev B PCB 3D view](images/RevB_PCB_3D.png)
 
 ## What it does
 
 - Waters each zone on its own. A zone starts below 35 % moisture and stops above 60 % (both adjustable from Blynk).
 - Opens at most two valves at once, so the 12 V 3 A adapter is never overloaded.
 - Soft-starts the pump over 500 ms with 20 kHz PWM, which cut the start-up peak from 2.98 A to 1.62 A in the performance model.
+- Checks the current on every step of the soft start, so a stalled pump is stopped during the ramp (2.54 A after 429 ms in the model).
 - Measures pump current with a 20 mΩ shunt and an INA181, and stops the pump within 250 ms on:
   - overcurrent above 2.5 A (jammed pump),
   - dry run below 0.25 A (empty tank),
   - supply voltage outside 10.5–13.8 V.
 - Caps every watering run at 20 minutes in case a sensor fails.
+- Skips a zone whose soil sensor is shorted, open or unplugged.
 - Has three modes (auto, manual and off), a MODE button, a buzzer for faults and a Wi-Fi status LED.
 
 ## Hardware
@@ -23,25 +27,37 @@ This repo has everything for v2: firmware, the PCB (EasyEDA, KiCad and Altium), 
 - **MCU:** ESP32-S3-WROOM-1-N8
 - **Inputs:** 4 capacitive soil-moisture sensors (power switched by a P-FET to cut corrosion and current), DHT11, supply sense divider (100k/22k), pump current sense
 - **Outputs:** 12 V DC pump (PWM low-side MOSFET), 4 × 12 V solenoid valves, buzzer, LEDs
-- **Board:** round "water-drop" PCB, routed in EasyEDA Pro with 0 DRC errors and 100 % of nets routed. The DC jack faces left.
+- **Board (Rev B):** 100 × 75 mm rectangle with four M3 mounting holes, routed in EasyEDA Pro with 0 DRC errors and 100 % of nets routed. The DC jack and USB-C face out of the left edge, the pump and valve terminals are along the bottom edge, and the sensor connectors are on the right. The antenna sits at the top edge over a copper keep-out.
 
-![PCB 2D layout](images/PCB_2D_layout.png)
+### What changed from Rev A to Rev B
+
+- Pump MOSFET changed from AO3400A (SOT-23) to AO4404B (SOIC-8) for more current and heat margin.
+- A 1 kΩ + 100 nF filter was added on the current-sense output, because the shunt only carries current during the PWM on-time.
+- High-current tracks are 1.4–1.5 mm wide with no vias. Power parts are grouped on the left, away from the antenna and the sensor inputs.
+- Unused pins are marked no-connect, and the board has mounting holes.
+- Pin assignments are the same, so the pin map in `config.h` did not change.
+
+The schematic is in [hardware/rev-b/schematic/RevB_Schematic.pdf](hardware/rev-b/schematic/RevB_Schematic.pdf) (7 sheets, also as PNG). This is the pump driver sheet:
+
+![Rev B pump driver schematic](images/RevB_Schematic_Pump_Driver.png)
 
 ## Repository layout
 
 | Folder | What's inside |
 |---|---|
 | `firmware/` | PlatformIO project (Arduino on ESP32-S3) |
-| `hardware/easyeda-fab/` | Gerbers, BOM and pick-and-place exported from EasyEDA Pro |
-| `hardware/kicad/` | KiCad 10 project (schematic sheets, PCB, symbol library) |
-| `hardware/altium/` | Original Altium schematic and PCB |
-| `hardware/3d/` | STEP model of the assembled board |
+| `hardware/rev-b/fab/` | Rev B Gerbers, BOM and pick-and-place from EasyEDA Pro |
+| `hardware/rev-b/schematic/` | Rev B schematic, PDF and one PNG per sheet |
+| `hardware/rev-a-fab/` | Rev A (round board) Gerbers, BOM and pick-and-place |
+| `hardware/kicad/` | Rev A KiCad 10 project |
+| `hardware/altium/` | Rev A Altium schematic and PCB |
+| `hardware/3d/` | Rev A STEP model |
 | `simulation/wokwi/` | Wokwi ESP32-S3 simulation (sketch, diagram, libraries) |
 | `simulation/proteus/` | Proteus project, test hex and the automated test runner |
 | `simulation/avr-emulator/` | Python AVR emulator used to run the Proteus test firmware and measure timing |
-| `simulation/performance-model/` | Software-in-the-loop C++ model built on the real firmware logic, plus the CSV output |
+| `simulation/performance-model/` | Plant model in C++ that is compiled with the real firmware sources, plus the CSV output |
 | `results/` | Test results workbook and performance graphs |
-| `docs/` | Technical report (PDF) |
+| `docs/` | Technical report for Rev A (PDF) and the Rev B change notes |
 | `enclosure/` | STL files, renders, and the FreeCAD and Fusion 360 sources |
 | `images/` | Board and circuit pictures |
 
@@ -64,6 +80,8 @@ Pin assignments and every limit live in `firmware/include/config.h`.
 | V8 | Mode (0 auto, 1 manual, 2 off) |
 | V9 | Fault code |
 | V10–V13 | Manual valve switches |
+| V14, V15 | Dry and wet thresholds |
+| V16 | Clear fault |
 
 ## Simulation and testing
 
@@ -73,7 +91,10 @@ Pin assignments and every limit live in `firmware/include/config.h`.
 
 ```bash
 cd simulation/performance-model
-g++ -O2 -o sim sim.cpp && ./sim && python3 plot.py
+F=../../firmware
+g++ -O2 -std=c++17 -DREVA -o simA sim.cpp && ./simA
+g++ -O2 -std=c++17 -Istub -I$F/include -o sim sim.cpp $F/src/sensors.cpp $F/src/outputs.cpp $F/src/zones.cpp && ./sim
+python3 plot.py
 ```
 
 | Result | Value |
@@ -83,14 +104,20 @@ g++ -O2 -o sim sim.cpp && ./sim && python3 plot.py
 | Soft-start peak | 1.62 A (2.98 A hard start) |
 | Dry-run, overcurrent and low-supply trip time | 250 ms |
 | Faults in a normal 8-hour run | 0 |
+| Current-sense error during soft start | 0.01 A mean on Rev B (0.34 A on Rev A) |
+| Stalled pump at start-up | stopped at 2.54 A after 429 ms on Rev B (2.94 A, 499 ms on Rev A) |
 
-![Auto watering over 8 hours](results/graphs/Perf_1_Auto_Watering_8h.png)
+![Auto watering over 8 hours](results/graphs/RevB_Perf_1_Auto_Watering_8h.png)
 
-The full method and results are in [docs/Irrigation_v2_Technical_Report.pdf](docs/Irrigation_v2_Technical_Report.pdf).
+![Stalled start](results/graphs/RevB_Perf_5_Stalled_Start.png)
+
+These numbers come from the model. The Rev B firmware has not been built with PlatformIO or run on a board yet, and Wokwi and Proteus were last run on the Rev A code.
+
+The method is in [docs/Irrigation_v2_Technical_Report.pdf](docs/Irrigation_v2_Technical_Report.pdf), which was written for Rev A. The Rev B changes are in [docs/CHANGES_RevB.md](docs/CHANGES_RevB.md).
 
 ## Enclosure
 
-A two-part printed case with button plungers. The STLs are in `enclosure/stl/`.
+A two-part printed case with button plungers, designed for the round Rev A board. It does not fit Rev B yet. The STLs are in `enclosure/stl/`.
 
 ![Enclosure](enclosure/renders/render_assembled.png)
 
