@@ -102,7 +102,8 @@ python3 plot.py
 | Most valves open at once | 2 (limit 2) |
 | Peak running current | 1.59 A (limit 2.5 A) |
 | Soft-start peak | 1.62 A (2.98 A hard start) |
-| Dry-run, overcurrent and low-supply trip time | 250 ms |
+| Dry-run and overcurrent trip time | 250 ms |
+| Low-supply trip time | 200–250 ms, tested at 8 points of the 10 s sensor period |
 | Faults in a normal 8-hour run | 0 |
 | Current-sense error during soft start | 0.01 A mean on Rev B (0.34 A on Rev A) |
 | Stalled pump at start-up | stopped at 2.54 A after 429 ms on Rev B (2.94 A, 499 ms on Rev A) |
@@ -110,6 +111,10 @@ python3 plot.py
 ![Auto watering over 8 hours](results/graphs/RevB_Perf_1_Auto_Watering_8h.png)
 
 ![Stalled start](results/graphs/RevB_Perf_5_Stalled_Start.png)
+
+![Fault response](results/graphs/RevB_Perf_2_Fault_Response.png)
+
+![Valve and pump sequencing](results/graphs/RevB_Perf_6_Sequencing.png)
 
 These numbers come from the model. The Rev B sketch compiles and runs in Wokwi (steady readings, no fault), but the fault tests were not repeated there. The firmware has not been built with PlatformIO or run on a board yet, and Proteus was last run on the Rev A code.
 
