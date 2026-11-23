@@ -26,7 +26,9 @@ for i,(f,col,th,lab,title,ev) in enumerate([('dryrun','I',0.25,'dry-run limit 0.
     else: ax[i].set_ylim(0,3.2)
     y0,y1=ax[i].get_ylim(); ax[i].text(59.99,y0+(y1-y0)*0.55,f'{ev} at 60.0 s',fontsize=8,ha='right',color='gray')
     ax[i].text(tr+0.02,y0+(y1-y0)*0.6,f'Pump off at {tr:.2f} s\n(+{(tr-60)*1000:.0f} ms)',fontsize=8.5,color='r',fontweight='bold')
-    ax[i].set_title(title,loc='left',fontweight='bold',fontsize=10);ax[i].set_xlabel('Time (s)');ax[i].set_ylabel('Pump current (A)' if col=='I' else 'Supply voltage (V)');ax[i].legend(loc='lower right',fontsize=8)
+    if col=='Vin':
+        sw=pd.read_csv('x_vinsweep.csv'); ax[i].text(0.03,0.015,f'Checked every 100 ms, 2 readings in a row.\n{len(sw)} drop times across the 10 s sensor period:\npump off after {sw.delay_ms.min():.0f} to {sw.delay_ms.max():.0f} ms',transform=ax[i].transAxes,fontsize=7.5,color='#333')
+    ax[i].set_title(title,loc='left',fontweight='bold',fontsize=10);ax[i].set_xlabel('Time (s)');ax[i].set_ylabel('Pump current (A)' if col=='I' else 'Supply voltage (V)');ax[i].legend(loc='lower right' if col=='I' else 'upper right',fontsize=8)
 fig.suptitle('Fault protection response',x=0.01,ha='left',fontweight='bold');fig.tight_layout();fig.savefig(O+'Perf_2_Fault_Response.png',dpi=160)
 # soft start
 s=pd.read_csv('soft.csv');hd=pd.read_csv('hard.csv');s.t-=s.t.iloc[0];hd.t-=hd.t.iloc[0]
@@ -45,7 +47,7 @@ tr={f:(TR[f+'.csv']-60)*1000 for f in ['dryrun','jam','lowvin']}
 summ=[['Most valves open at once',int(a.open.max()),'limit 2'],['Pump run time in 8 h (min)',round(a.pump.sum()*10/60,1),''],
 ['Peak running current (A)',round(a.I.max(),2),'limit 2.5'],['Soft-start peak (A)',round(s.I.max(),2),f'hard start {hd.I.max():.2f}'],
 ['Dry-run trip time (ms)',round(tr['dryrun']),'after tank empty'],['Overcurrent trip time (ms)',round(tr['jam']),'after jam'],
-['Low-supply trip time (ms)',round(tr['lowvin']),'checked every 10 s sensor read'],['Faults in normal 8 h run',int(a.fault.max()),'']]
+['Low-supply trip time (ms)',round(tr['lowvin']),'checked every 100 ms, 2 readings in a row'],['Low-supply trip, worst of 8 drop times (ms)',int(pd.read_csv('x_vinsweep.csv').delay_ms.max()),'across the 10 s sensor period'],['Faults in normal 8 h run',int(a.fault.max()),'']]
 m.to_csv('zones.csv',index=False);pd.DataFrame(summ,columns=['Metric','Value','Note']).to_csv('summary.csv',index=False)
 print(m.to_string());print(pd.DataFrame(summ).to_string())
 # ---- Rev B additions ----

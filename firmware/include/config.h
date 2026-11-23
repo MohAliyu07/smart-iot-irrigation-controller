@@ -50,6 +50,7 @@
 #define DRY_RUN_GRACE_MS    5000UL   // ignore low current while the pump primes
 #define VIN_MIN_V           10.5f
 #define VIN_MAX_V           13.8f
+#define VIN_FAULT_TICKS      2        // supply must be out of range on 2 safety ticks in a row (rejects short dips)
 #define MAX_WATER_MS        (20UL * 60UL * 1000UL)   // hard cap per zone: 20 minutes
 #define VALVE_LEAD_MS       100      // valve opens this long before the pump starts
 #define PUMP_LAG_MS         50       // pump stops this long before the last valve closes

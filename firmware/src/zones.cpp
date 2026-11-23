@@ -87,6 +87,13 @@ void zonesUpdate(const SensorData &d) {
 
 // Fast protection, independent of the 10 s sensor loop.
 void zonesSafetyTick() {
+  // Supply voltage: checked here as well as in zonesUpdate(), so a failing supply
+  // stops the pump within a few hundred milliseconds instead of at the next sensor read.
+  static uint8_t vinBadTicks = 0;
+  float vin = readVin();
+  vinBadTicks = (vin < VIN_MIN_V || vin > VIN_MAX_V) ? vinBadTicks + 1 : 0;
+  if (vinBadTicks >= VIN_FAULT_TICKS) { vinBadTicks = 0; trip(FAULT_VIN); return; }
+
   if (!pumpRunning()) return;
 
   float amps = readPumpCurrent();

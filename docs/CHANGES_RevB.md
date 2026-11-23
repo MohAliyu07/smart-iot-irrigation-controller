@@ -19,6 +19,9 @@ The firmware was rewritten for the Rev B board. Pins, Blynk virtual pins and lim
 3. Thresholds sent from the app are range-checked, and wet is kept at least 5 % above dry.
 4. Only the first fault is latched, so a fault that stays present does not sound the buzzer every 10 s.
 5. A new fault code is sent to the app within 1 s instead of on the next 10 s sensor read.
+6. Supply voltage is checked in the 100 ms safety loop (two readings in a row) as well as at each sensor read.
+   Before, a failing supply could go unnoticed for up to 10 s. In the model the pump now stops 200 to 250 ms
+   after the drop, at eight different points of the sensor period.
 
 ## Checked
 - The performance model now compiles the real files in `firmware/src` (not a copy) with a plant model.
