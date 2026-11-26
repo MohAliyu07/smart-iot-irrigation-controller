@@ -2,7 +2,7 @@
 
 A four-zone garden watering controller built around the ESP32-S3. It reads four soil-moisture sensors and a DHT11, decides which zones need water, and runs a 12 V pump through four solenoid valves. You can watch it and take over from your phone through Blynk.
 
-This repo has everything for v2: firmware, the PCB, simulations, test results, a 3D-printable enclosure and the technical report.
+This repo has everything for v2: firmware, the PCB, simulations, test results and the technical report.
 
 The current board is **Rev B**, a 100 × 75 mm rectangular board redrawn from the schematic up. The first board (Rev A, the round one) is still here for reference.
 
@@ -62,7 +62,6 @@ The routed board, with the top copper in red, the bottom copper in blue and the 
 | `simulation/performance-model/` | Plant model in C++ that is compiled with the real firmware sources, plus the CSV output |
 | `results/` | Test results workbook and performance graphs |
 | `docs/` | Technical report for Rev A (PDF) and the Rev B change notes |
-| `enclosure/` | STL files, renders, and the FreeCAD and Fusion 360 sources |
 | `images/` | Board and circuit pictures |
 
 ## Building the firmware
@@ -124,13 +123,7 @@ These numbers come from the model. The Rev B sketch compiles and runs in Wokwi (
 
 ![Wokwi test circuit](images/RevB_Wokwi_Circuit.png)
 
-The method is in [docs/Irrigation_v2_Technical_Report.pdf](docs/Irrigation_v2_Technical_Report.pdf), which was written for Rev A. The Rev B changes are in [docs/CHANGES_RevB.md](docs/CHANGES_RevB.md).
-
-## Enclosure
-
-A two-part printed case with button plungers, designed for the round Rev A board. It does not fit Rev B yet. The STLs are in `enclosure/stl/`.
-
-![Enclosure](enclosure/renders/render_assembled.png)
+The full write-up, including Rev B, is in [docs/Technical_Report_RevB.pdf](docs/Technical_Report_RevB.pdf). The Rev B changes are also listed in [docs/CHANGES_RevB.md](docs/CHANGES_RevB.md).
 
 ## Author
 
