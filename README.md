@@ -37,9 +37,35 @@ The current board is **Rev B**, a 100 × 75 mm rectangular board redrawn from th
 - Unused pins are marked no-connect, and the board has mounting holes.
 - Pin assignments are the same, so the pin map in `config.h` did not change.
 
-The schematic is in [hardware/rev-b/schematic/RevB_Schematic.pdf](hardware/rev-b/schematic/RevB_Schematic.pdf) (7 sheets, also as PNG). This is the pump driver sheet:
+The schematic is in [hardware/rev-b/schematic/RevB_Schematic.pdf](hardware/rev-b/schematic/RevB_Schematic.pdf). All 7 sheets:
 
-![Rev B pump driver schematic](images/RevB_Schematic_Pump_Driver.png)
+**Sheet 1: Power input**
+
+![Sheet 1: Power input](hardware/rev-b/schematic/RevB_Schematic-1.png)
+
+**Sheet 2: Regulators and USB**
+
+![Sheet 2: Regulators and USB](hardware/rev-b/schematic/RevB_Schematic-2.png)
+
+**Sheet 3: ESP32-S3**
+
+![Sheet 3: ESP32-S3](hardware/rev-b/schematic/RevB_Schematic-3.png)
+
+**Sheet 4: Soil sensors and DHT11**
+
+![Sheet 4: Soil sensors and DHT11](hardware/rev-b/schematic/RevB_Schematic-4.png)
+
+**Sheet 5: Pump driver and buzzer**
+
+![Sheet 5: Pump driver and buzzer](hardware/rev-b/schematic/RevB_Schematic-5.png)
+
+**Sheet 6: Valves 1 and 2**
+
+![Sheet 6: Valves 1 and 2](hardware/rev-b/schematic/RevB_Schematic-6.png)
+
+**Sheet 7: Valves 3 and 4**
+
+![Sheet 7: Valves 3 and 4](hardware/rev-b/schematic/RevB_Schematic-7.png)
 
 The routed board, with the top copper in red, the bottom copper in blue and the ground pours on both layers:
 
