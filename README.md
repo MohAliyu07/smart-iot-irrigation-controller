@@ -149,6 +149,18 @@ These numbers come from the model. The Rev B sketch compiles and runs in Wokwi (
 
 ![Wokwi test circuit](images/RevB_Wokwi_Circuit.png)
 
+### Proteus check (early logic test)
+
+Before the ESP32 firmware was ready, I tested the watering logic in Proteus on a simplified ATmega328P version. This was done on the Rev A code, not on the Rev B board. Four potentiometers stand in for the soil sensors, a DHT11 gives temperature and humidity, a push button and a switch act as the manual and tank-level inputs, and six LEDs show the pump, the four valves and the alarm. All 6 Proteus tests passed. The project is in `simulation/proteus/`.
+
+![Proteus test circuit (ATmega328P)](images/Proteus_Circuit_ATmega328P.png)
+
+![Proteus output timeline](results/graphs/Proteus_1_Output_Timeline.png)
+
+![Proteus switching thresholds](results/graphs/Proteus_2_Thresholds.png)
+
+![Proteus response times](results/graphs/Proteus_3_Response_Time.png)
+
 The full write-up, including Rev B, is in [docs/Technical_Report_RevB.pdf](docs/Technical_Report_RevB.pdf). The Rev B changes are also listed in [docs/CHANGES_RevB.md](docs/CHANGES_RevB.md).
 
 ## Author
