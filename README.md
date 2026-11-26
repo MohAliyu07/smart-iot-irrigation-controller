@@ -41,6 +41,10 @@ The schematic is in [hardware/rev-b/schematic/RevB_Schematic.pdf](hardware/rev-b
 
 ![Rev B pump driver schematic](images/RevB_Schematic_Pump_Driver.png)
 
+The routed board, with the top copper in red, the bottom copper in blue and the ground pours on both layers:
+
+![Rev B PCB layout](images/RevB_PCB_Layout.png)
+
 ## Repository layout
 
 | Folder | What's inside |
@@ -108,11 +112,11 @@ python3 plot.py
 | Current-sense error during soft start | 0.01 A mean on Rev B (0.34 A on Rev A) |
 | Stalled pump at start-up | stopped at 2.54 A after 429 ms on Rev B (2.94 A, 499 ms on Rev A) |
 
-![Auto watering over 8 hours](results/graphs/RevB_Perf_1_Auto_Watering_8h.png)
+![Auto watering over 8 hours: soil moisture, valve and pump timeline, pump current](results/graphs/RevB_Excel_Auto_Watering_8h.png)
 
 ![Stalled start](results/graphs/RevB_Perf_5_Stalled_Start.png)
 
-![Fault response](results/graphs/RevB_Perf_2_Fault_Response.png)
+![Fault response: dry run, pump jam, supply drop](results/graphs/RevB_Excel_Fault_Response.png)
 
 ![Valve and pump sequencing](results/graphs/RevB_Perf_6_Sequencing.png)
 
